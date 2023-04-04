@@ -52,10 +52,7 @@ const SignUpForm = () => {
         
         
         
-        
-        // confirm that password matches
-        // see if authentication is successful
-        // create a user document
+
         
 
     }
