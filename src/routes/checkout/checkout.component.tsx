@@ -1,9 +1,12 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
 
 import CheckoutItem from "../../Components/checkout-item/checkout-item.component";
 
-import { CartContext } from "../../contexts/cart.context";
 import { ICartItem } from "../../Components/cart-item/cart-item.component";
+import { selectCartItems, selectCartTotal } from "../../store/cart/cart.selector";
+import { setIsCartOpen } from "../../store/cart/cart.action";
 
 import {CheckoutContainer, CheckoutHeader, HeaderBlock, Total} from './checkout.styles.jsx';
 
@@ -17,11 +20,12 @@ export type CheckoutCartContext = {
 }
 
 const Checkout = () => {
-    const context = useContext(CartContext);
-    const { setIsCartOpen, cartItems, cartTotal }: CheckoutCartContext = context
+    const dispatch = useDispatch();
+    const cartItems: ICartItem[] = useSelector(selectCartItems);
+    const cartTotal = useSelector(selectCartTotal);
 
     useEffect (() => {
-        setIsCartOpen(false);
+        dispatch(setIsCartOpen(false));
     }, [])
 
     return (
@@ -43,7 +47,7 @@ const Checkout = () => {
                     <span>Remove</span>
                 </HeaderBlock>
             </CheckoutHeader>
-            {cartItems.map((item) => (
+            {cartItems.map((item): any => (
                 <CheckoutItem key={item.id} cartItem={item} />
             ))}
 

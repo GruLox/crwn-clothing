@@ -14,12 +14,10 @@ import { useSelector } from 'react-redux';
 const Category = () => {
     const params = useParams<{category: string}>();
     const category: any = params.category!
-    console.log('render/re-rendering category component');
     const categoriesMap = useSelector(selectCategoriesMap);
     const [products, setProducts] = useState<Product[]>(categoriesMap[category]);
 
     useEffect(() => {
-        console.log('effect fired calling setProducts');
         if (categoriesMap.hasOwnProperty(category)) {
             setProducts(categoriesMap[category])
         }
