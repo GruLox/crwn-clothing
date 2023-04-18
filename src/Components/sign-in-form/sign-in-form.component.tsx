@@ -1,10 +1,11 @@
 import { ChangeEvent, useState } from "react";
+import { useDispatch } from "react-redux";
 
-import { signUserInWithEmailAndPassword, signInWithGooglePopup, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
 import FormInput from "../form-input/form-input.component";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
-import {ButtonsContainer, SignUpContainer} from './sign-in-form.styles.jsx';
+import { ButtonsContainer, SignUpContainer } from './sign-in-form.styles.jsx';
+import { googleSignInStart, emailSignInStart } from "../../store/user/user.action";
 
 
 
@@ -14,22 +15,23 @@ const defaultformFields = {
 }
 
 const SignInForm = () => {
+    const dispatch = useDispatch();
     const [formFields, setFormFields] = useState(defaultformFields);
     const { email, password } = formFields
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target
-        setFormFields({...formFields, [name]: value});
+        setFormFields({ ...formFields, [name]: value });
     }
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
 
         try {
-            const response: any = await signUserInWithEmailAndPassword(email, password);
-            const {user} = response;
+            dispatch(emailSignInStart(email, password));
+            
         } catch (error: any) {
-            switch(error.code) {
+            switch (error.code) {
                 case 'auth/wrong-password':
                     alert('incorrect password for email');
                     break
@@ -43,8 +45,7 @@ const SignInForm = () => {
     }
 
     const signInWithGoogle = async () => {
-        await signInWithGooglePopup();
-        
+        dispatch(googleSignInStart());
     }
 
     return (
@@ -52,20 +53,20 @@ const SignInForm = () => {
             <h2>Already have an account?</h2>
             <span>Sign in with your email and password</span>
             <form onSubmit={handleSubmit}>
-                <FormInput 
+                <FormInput
                     label="Email"
-                    type="email" 
-                    required 
-                    onChange={handleChange} 
-                    name="email" 
+                    type="email"
+                    required
+                    onChange={handleChange}
+                    name="email"
                     value={email}
                 />
                 <FormInput
                     label="Password"
-                    type="password" 
-                    required onChange={handleChange} 
-                    name="password" 
-                    value={password} 
+                    type="password"
+                    required onChange={handleChange}
+                    name="password"
+                    value={password}
                 />
                 <ButtonsContainer>
                     <Button type='submit'>Sign in</Button>
@@ -74,7 +75,7 @@ const SignInForm = () => {
                 </ButtonsContainer>
             </form>
         </SignUpContainer>
-        
+
     )
 }
 
