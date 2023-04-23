@@ -8,11 +8,13 @@ import { ICartItem } from "../../Components/cart-item/cart-item.component";
 import { selectCartItems, selectCartTotal } from "../../store/cart/cart.selector";
 import { setIsCartOpen } from "../../store/cart/cart.action";
 
-import {CheckoutContainer, CheckoutHeader, HeaderBlock, Total} from './checkout.styles.jsx';
+import PaymentForm from "../../Components/payment-form/payment-form.component";
+
+import { CheckoutContainer, CheckoutHeader, HeaderBlock, Total } from './checkout.styles.jsx';
 
 export type CheckoutCartContext = {
-    cartItems: ICartItem[], 
-    addItemToCart: any, 
+    cartItems: ICartItem[],
+    addItemToCart: any,
     removeSingleItemFromCart: any,
     setIsCartOpen: any,
     removeProductFromCart: any,
@@ -24,7 +26,7 @@ const Checkout = () => {
     const cartItems: ICartItem[] = useSelector(selectCartItems);
     const cartTotal = useSelector(selectCartTotal);
 
-    useEffect (() => {
+    useEffect(() => {
         dispatch(setIsCartOpen(false));
     }, [])
 
@@ -52,7 +54,8 @@ const Checkout = () => {
             ))}
 
             <Total>Total: ${cartTotal}</Total>
-    
+            <PaymentForm />
+
         </CheckoutContainer>
     )
 };
