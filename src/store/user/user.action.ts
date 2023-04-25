@@ -1,7 +1,8 @@
 import { USER_ACTION_TYPES } from './user.types';
 import { createAction } from '../../utils/reducer/reducer.utils';
+import { UserProfile } from 'firebase/auth';
 
-export const setCurrentUser = (user) =>
+export const setCurrentUser = (user: UserProfile) =>
   createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user);
 
 export const checkUserSession = () =>
@@ -10,26 +11,26 @@ export const checkUserSession = () =>
 export const googleSignInStart = () =>
   createAction(USER_ACTION_TYPES.GOOGLE_SIGN_IN_START);
 
-export const emailSignInStart = (email, password) =>
+export const emailSignInStart = (email: string, password: string) =>
   createAction(USER_ACTION_TYPES.EMAIL_SIGN_IN_START, { email, password });
 
-export const signInSuccess = (user) =>
+export const signInSuccess = (user: UserProfile) =>
   createAction(USER_ACTION_TYPES.SIGN_IN_SUCCESS, user);
 
-export const signInFailed = (user) =>
+export const signInFailed = (user: UserProfile) =>
   createAction(USER_ACTION_TYPES.SIGN_IN_FAILURE, user);
 
-export const signUpStart = (email, password, displayName) =>
+export const signUpStart = (email: string, password: string, displayName: string) =>
   createAction(USER_ACTION_TYPES.SIGN_UP_START, {
     email,
     password,
     displayName,
   });
 
-export const signUpSuccess = (user, additionalDetails) =>
+export const signUpSuccess = (user: UserProfile, additionalDetails: any) =>
   createAction(USER_ACTION_TYPES.SIGN_UP_SUCCESS, { user, additionalDetails });
 
-export const signUpFailed = (error) =>
+export const signUpFailed = (error: Error) =>
   createAction(USER_ACTION_TYPES.SIGN_UP_FAILED, error);
 
 export const signOutStart = () =>
@@ -38,5 +39,5 @@ export const signOutStart = () =>
 export const signOutSuccess = () =>
   createAction(USER_ACTION_TYPES.SIGN_UP_SUCCESS);
 
-export const signOutFailed = (error) =>
+export const signOutFailed = (error: Error) =>
   createAction(USER_ACTION_TYPES.SIGN_UP_SUCCESS, error);
